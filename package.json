@@ -1,0 +1,57 @@
+{
+    "name": "awesome-playwright",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "npx playwright test",
+        "prepare": "husky install"
+    },
+    "lint-staged": {
+        "*.{js,ts}": "eslint --fix"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@commitlint/cli": "^13.1.0",
+        "@commitlint/config-conventional": "^13.1.0",
+        "@types/module-alias": "^2.0.1",
+        "@typescript-eslint/eslint-plugin": "^4.29.2",
+        "@typescript-eslint/parser": "^4.29.2",
+        "allure-playwright": "^2.0.0-beta.11",
+        "commitizen": "^4.2.4",
+        "cz-conventional-changelog": "^3.2.0",
+        "eslint": "^7.32.0",
+        "eslint-config-airbnb-base": "^14.2.1",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-import-resolver-typescript": "^2.4.0",
+        "eslint-plugin-import": "^2.24.1",
+        "eslint-plugin-prettier": "^3.4.1",
+        "husky": "^6.0.0",
+        "lint-staged": "^11.1.2",
+        "prettier": "2.3.2",
+        "typescript": "^4.3.5"
+    },
+    "dependencies": {
+        "@playwright/test": "^1.14.0",
+        "@types/node": "^16.6.2",
+        "@types/shelljs": "^0.8.9",
+        "faker": "^5.5.3",
+        "module-alias": "^2.2.2",
+        "playwright": "^1.14.0",
+        "shelljs": "^0.8.4"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-customizable"
+        }
+    },
+    "_moduleAliases": {
+        "@root": "./",
+        "@choerodon": "choerodon",
+        "@pages": "pages",
+        "@utils": "utils",
+        "@tests": "tests"
+    }
+}

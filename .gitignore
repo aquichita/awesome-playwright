@@ -1,0 +1,6 @@
+node_modules
+dist
+*result*
+*report*
+*.log
+state.json

@@ -48,14 +48,27 @@ export class WorkListPage extends Choerodon {
         return this
     }
 
-    async addIssueItemQuick(params: StoryProps, sprintName?: string) {
-        if (!sprintName) {
-            await this.page.click(`:nth-match(.c7nagile-QuickCreateIssue > button, 1)`)
+    async addIssue2BackLog(params: StoryProps) {
+        await this.page.click('button:has-text("创建问题") >> nth=-1')
+        await this.page.click('.c7n-typeTag >> nth=-1', { strict: true })
+        if (params.问题类型) {
+            await this.page.click(`.c7n-dropdown-menu > li:has-text("${params.问题类型}")`)
         }
-        await this.page.fill(`.c7n-input.hidden-label`, params.问题概要)
+        await this.page.fill(
+            '.c7n-backlog-content > :has-text("待办事项") input',
+            params.问题概要,
+            { strict: true }
+        )
         await this.page.click(`button:has-text("确定")`)
-        // page.waitForTimeout()应该仅用于调试。在生产中使用计时器的测试将是不稳定的。改用网络事件、选择器变得可见等信号。
         await this.page.waitForTimeout(3000)
+        return this
+    }
+
+    async moveIssueFromBackLog2Sprint(issueName: string, sprintName: string) {
+        await this.page.dragAndDrop(
+            `.c7n-backlog-content > :has-text("待办事项") .c7n-backlog-issue-left:has-text("${issueName}")`,
+            `.c7n-backlog-content > :has-text("${sprintName}") .c7n-noissue-wapper`
+        )
         return this
     }
 }

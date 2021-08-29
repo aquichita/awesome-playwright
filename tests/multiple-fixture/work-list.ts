@@ -1,15 +1,15 @@
 import { test } from '@playwright/test'
 import { id } from '@utils/data-provider'
-import { Tab, WorkListPage } from '@pages/coordination/work-list-page'
+import { IssueType, Tab, WorkListPage } from '@pages/coordination/work-list-page'
 
 type WorkListFixtures = {
     workListPage: WorkListPage
     sprint: string
-    story: string
+    issue: string
 }
 
 const sprintParameters = { 冲刺名称: id }
-const storyParameters = { 问题概要: id }
+const issueParameters = { 问题概要: id, 问题类型: IssueType.缺陷 }
 
 const testWorkList = test.extend<WorkListFixtures>({
     workListPage: async ({ page }, use) => {
@@ -23,9 +23,9 @@ const testWorkList = test.extend<WorkListFixtures>({
         await use(sprintParameters.冲刺名称)
     },
 
-    story: async ({ workListPage }, use) => {
-        await workListPage.addIssueItemQuick(storyParameters)
-        await use(storyParameters.问题概要)
+    issue: async ({ workListPage }, use) => {
+        await workListPage.addIssue2BackLog(issueParameters)
+        await use(issueParameters.问题概要)
     }
 })
 

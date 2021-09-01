@@ -12,7 +12,7 @@ yarn install
 set PLAYWRIGHT_BROWSERS_PATH=%USERPROFILE%\pw-browsers
 npx playwright install
 
-npx playwright test
+npx playwright test --browser=all
 npx playwright test tests\multiple-fixture\work-list-multiple-fixture.spec.ts
 
 ```
@@ -204,7 +204,7 @@ export class WorkListPage extends Choerodon {
 
 ##### 原则
 
-- 易读 
+- 易读
   - 很容易通过测试脚本理解被测软件的功能;
   - 通过测试脚本能够快速定位缺陷的位置；
 - 易维护：测试脚本应该是容易编写和维护；

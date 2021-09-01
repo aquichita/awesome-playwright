@@ -5,7 +5,7 @@ const config: PlaywrightTestConfig = {
     use: {
         baseURL: process.env.TEST_URL_BASE,
         channel: 'chrome',
-        headless: true,
+        headless: false,
         viewport: { width: 1366, height: 768 },
         ignoreHTTPSErrors: true,
         screenshot: 'on',

@@ -6,9 +6,10 @@ export interface 订单类型 {
     是否启用?: boolean
 }
 
-export class 订单类型维护 extends HTMS {
+export class BasicOrderType extends HTMS {
     async 导航(url: string = '/htms/basic/ordertype/query') {
         await super.goto(url)
+        return this
     }
 
     async 新建(参数列表: 订单类型) {

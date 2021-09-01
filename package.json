@@ -48,10 +48,11 @@
         }
     },
     "_moduleAliases": {
-        "@root": "./",
+        "@*": "./",
         "@choerodon": "choerodon",
         "@pages": "pages",
         "@utils": "utils",
-        "@tests": "tests"
+        "@tests": "tests",
+        "@htms": "htms"
     }
 }

@@ -1,5 +1,6 @@
 import 'module-alias/register'
 import { PlaywrightTestConfig } from '@playwright/test'
+import './main.ts'
 
 const config: PlaywrightTestConfig = {
     use: {
@@ -14,8 +15,8 @@ const config: PlaywrightTestConfig = {
         storageState: 'state.json'
     },
     testDir: 'tests',
-    globalSetup: require.resolve('./choerodon/setup.ts'),
-    globalTeardown: require.resolve('./choerodon/teardown.ts'),
+    globalSetup: require.resolve('./htms/setup.ts'),
+    globalTeardown: require.resolve('./htms/teardown.ts'),
     preserveOutput: 'always',
     retries: 2,
     workers: process.env.CI ? 2 : undefined,

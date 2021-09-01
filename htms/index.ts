@@ -1,23 +1,24 @@
+import { expect } from '@playwright/test'
 import type { Page } from 'playwright'
 
 export default class HTMS {
     protected readonly page: Page
 
-    protected readonly 新建按钮: string = 'button:has-text("新建")'
+    protected readonly 新建按钮: string = 'button:has-text("新 建")'
 
-    protected readonly 保存按钮: string = 'button:has-text("保存")'
+    protected readonly 保存按钮: string = 'button:has-text("保 存")'
 
-    protected readonly 确定按钮: string = 'button:has-text("确定")'
+    protected readonly 确定按钮: string = 'button:has-text("确 定")'
 
-    protected readonly 提交按钮: string = 'button:has-text("提交")'
+    protected readonly 提交按钮: string = 'button:has-text("提 交")'
 
-    protected readonly 取消按钮: string = 'button:has-text("取消")'
+    protected readonly 取消按钮: string = 'button:has-text("取 消")'
 
-    protected readonly 删除按钮: string = 'button:has-text("删除")'
+    protected readonly 删除按钮: string = 'button:has-text("删 除")'
 
-    protected readonly 重置按钮: string = 'button:has-text("重置")'
+    protected readonly 重置按钮: string = 'button:has-text("重 置")'
 
-    protected readonly 查询按钮: string = 'button:has-text("查询")'
+    protected readonly 查询按钮: string = 'button:has-text("查 询")'
 
     constructor(page: Page) {
         this.page = page
@@ -31,6 +32,7 @@ export default class HTMS {
         await this.page.fill('#username', name)
         await this.page.fill('#password', pwd)
         await this.page.click('button:has-text("登录")')
+        await this.page.waitForNavigation()
         return this
     }
 
@@ -39,6 +41,7 @@ export default class HTMS {
             ? otherBaseUrl.concat(path)
             : (process.env.TEST_URL_BASE as string).concat(path)
         await this.page.goto(requestUrl)
+        await this.page.waitForNavigation()
         return this
     }
 

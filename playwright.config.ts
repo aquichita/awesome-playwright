@@ -14,6 +14,7 @@ const config: PlaywrightTestConfig = {
         trace: 'on',
         storageState: 'state.json'
     },
+    timeout: 60,
     testDir: 'tests',
     globalSetup: require.resolve('./htms/setup.ts'),
     globalTeardown: require.resolve('./htms/teardown.ts'),

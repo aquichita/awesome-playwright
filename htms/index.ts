@@ -1,4 +1,4 @@
-import { expect } from '@playwright/test'
+import assert from 'assert'
 import type { Page } from 'playwright'
 
 export default class HTMS {
@@ -16,18 +16,18 @@ export default class HTMS {
 
     protected readonly 删除按钮: string = 'button:has-text("删 除")'
 
-    protected readonly 重置按钮: string = 'button:has-text("重 置")'
+    protected readonly 重置按钮: string = 'button:has-text("重置")'
 
-    protected readonly 查询按钮: string = 'button:has-text("查 询")'
+    protected readonly 查询按钮: string = 'button:has-text("查询")'
 
     constructor(page: Page) {
         this.page = page
     }
 
     async 登录(loginUrl?: string, username?: string, password?: string) {
-        const url = loginUrl || (process.env.TEST_URL_LOGIN as string)
-        const name = username || (process.env.TEST_USERNAME as string)
-        const pwd = password || (process.env.TEST_PASSWORD as string)
+        const url = loginUrl || (process.env.TEST_DEV_LOGIN_URL as string)
+        const name = username || (process.env.TEST_DEV_USERNAME as string)
+        const pwd = password || (process.env.TEST_DEV_PASSWORD as string)
         await this.page.goto(url)
         await this.page.fill('#username', name)
         await this.page.fill('#password', pwd)
@@ -39,9 +39,8 @@ export default class HTMS {
     async goto(path: string, otherBaseUrl?: string) {
         const requestUrl = otherBaseUrl
             ? otherBaseUrl.concat(path)
-            : (process.env.TEST_URL_BASE as string).concat(path)
+            : (process.env.TEST_DEV_BASE_URL as string).concat(path)
         await this.page.goto(requestUrl)
-        await this.page.waitForNavigation()
         return this
     }
 
@@ -85,8 +84,11 @@ export default class HTMS {
      * 系统内置LOV值集选择方法
      * @param value 选项名称
      */
-    async 选择下拉列表值(value: string) {
-        await this.page.click(`.c7n-pro-select-dropdown-menu li:has-text("${value}")`)
+    async 选择下拉列表值(name: string, value: string) {
+        const input = `input:right-of(td:has-text("${name}"))`
+        await this.page.click(input)
+        await this.page.click(`li:has-text("${value}")`)
+        assert.equal(await this.page.inputValue(input), value)
         return this
     }
 
@@ -94,5 +96,18 @@ export default class HTMS {
         await this.page.click('.ant-confirm-btns button:has-text("取消")')
         await this.page.isHidden('.ant-modal-content')
         return this
+    }
+
+    async 获取列表内容() {
+        /**
+         * .c7n-pro-table-last-row-bordered
+         * .c7n-pro-table-thead tr
+         * .c7n-pro-table-tbody
+         */
+        const ths = await this.page.$$('.c7n-pro-table-thead tr th')
+        const thsNames = ths.map((th) => th.innerText())
+        const trs = await this.page.$$('.c7n-pro-table-tbody tr')
+        const tds = trs.map((tr) => tr.$$('td'))
+        return thsNames
     }
 }

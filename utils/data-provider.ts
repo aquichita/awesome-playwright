@@ -1,6 +1,4 @@
-const dataProvider = require('faker')
+import * as provider from 'faker'
 
-// eslint-disable-next-line import/prefer-default-export
-const id: string = 'TEST-AUTO-'.concat(dataProvider.random.uuid())
-
-export default id
+export const dataPrefix: string = 'TEST-AUTO-'
+export const xid: string = dataPrefix.concat(Date.now().toString())

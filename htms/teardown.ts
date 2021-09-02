@@ -3,7 +3,8 @@ import * as shell from 'shelljs'
 
 async function openAllureReport() {
     if (os.platform().includes('win')) {
-        return shell.exec('allure generate allure-results --clean && allure open allure-report')
+        shell.exec('allure generate allure-results --clean')
+        shell.exec('allure open allure-report')
     }
     return shell.exec('')
 }

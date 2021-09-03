@@ -14,12 +14,12 @@ const config: PlaywrightTestConfig = {
         trace: 'on',
         storageState: 'state.json'
     },
-    timeout: 60,
+    timeout: 300000,
     testDir: 'tests',
     globalSetup: require.resolve('./htms/setup.ts'),
     globalTeardown: require.resolve('./htms/teardown.ts'),
     preserveOutput: 'always',
-    retries: 2,
+    retries: 0,
     workers: process.env.CI ? 2 : undefined,
     reporter: 'allure-playwright'
 }

@@ -733,6 +733,11 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-16.6.2.tgz"
   integrity sha512-LSw8TZt12ZudbpHc6EkIyDM3nHVWKYrAvGy6EAJfNfjusbwnThqjqxUKKRwuV3iWYeW/LYMzNgaq3MaLffQ2xA==
 
+"@types/node@^15.14.1":
+  version "15.14.9"
+  resolved "https://registry.nlark.com/@types/node/download/@types/node-15.14.9.tgz#bc43c990c3c9be7281868bbc7b8fdd6e2b57adfa"
+  integrity sha1-vEPJkMPJvnKBhou8e4/dbitXrfo=
+
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
   resolved "https://registry.npmjs.org/@types/normalize-package-data/-/normalize-package-data-2.4.1.tgz"
@@ -1722,6 +1727,23 @@ expect@^26.4.2:
     jest-matcher-utils "^26.6.2"
     jest-message-util "^26.6.2"
     jest-regex-util "^26.0.0"
+
+experimental-allure-js-commons@=0.0.1:
+  version "0.0.1"
+  resolved "https://registry.nlark.com/experimental-allure-js-commons/download/experimental-allure-js-commons-0.0.1.tgz#7fc0a16b614e19544e706e0b2ac75b1bb16227df"
+  integrity sha1-f8Cha2FOGVROcG4LKsdbG7FiJ98=
+  dependencies:
+    mkdirp "^1.0.4"
+    properties "^1.2.1"
+    uuid "^8.3.0"
+
+experimental-allure-playwright@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.nlark.com/experimental-allure-playwright/download/experimental-allure-playwright-0.0.3.tgz#3d39f41c76e5e272b10ee23942a1386346424161"
+  integrity sha1-PTn0HHbl4nKxDuI5QqE4Y0ZCQWE=
+  dependencies:
+    "@types/node" "^15.14.1"
+    experimental-allure-js-commons "=0.0.1"
 
 external-editor@^3.0.3:
   version "3.1.0"

@@ -1,3 +1,14 @@
+// process.env.TEST_DEV_LOGIN_URL = 'http://172.23.16.13:8888/oauth/login'
+// process.env.TEST_DEV_BASE_URL = 'http://172.23.16.13:9200'
+// process.env.TEST_DEV_USERNAME = 'admin'
+// process.env.TEST_DEV_PASSWORD = 'Admin@123'
+
+// process.env.TEST_DEV_DB_HOST = '172.23.16.132'
+// process.env.TEST_DEV_DB_PORT = '3306'
+// process.env.TEST_DEV_DB_NAME = 'htms_op_business'
+// process.env.TEST_DEV_DB_USERNAME = 'htms_dev'
+// process.env.TEST_DEV_DB_PASSWORD = 'htms_dev#132'
+
 process.env.TEST_DEV_LOGIN_URL = 'http://101.132.235.94:8080/oauth/login'
 process.env.TEST_DEV_BASE_URL = 'http://101.132.238.65:9200'
 process.env.TEST_DEV_USERNAME = 'AutoTest2021'

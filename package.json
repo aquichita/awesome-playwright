@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "npx playwright test",
+        "test": "npx playwright test --reporter=line,experimental-allure-playwright",
         "prepare": "husky install"
     },
     "lint-staged": {
@@ -28,6 +28,7 @@
         "eslint-import-resolver-typescript": "^2.4.0",
         "eslint-plugin-import": "^2.24.1",
         "eslint-plugin-prettier": "^3.4.1",
+        "experimental-allure-playwright": "^0.0.3",
         "husky": "^6.0.0",
         "lint-staged": "^11.1.2",
         "prettier": "2.3.2",

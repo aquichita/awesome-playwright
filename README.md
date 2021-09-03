@@ -13,6 +13,7 @@ set PLAYWRIGHT_BROWSERS_PATH=%USERPROFILE%\pw-browsers
 npx playwright install
 
 npx playwright test --browser=all
+npx playwright test --reporter=line,experimental-allure-playwright
 npx playwright test tests\multiple-fixture\work-list-multiple-fixture.spec.ts
 
 ```

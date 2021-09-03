@@ -1,5 +1,8 @@
-import assert from 'assert'
+import { getParametersTable } from '@utils/data-handle'
 import type { Page } from 'playwright'
+import Select from '@htms/select'
+import Switch from '@htms/switch'
+import assert from 'assert'
 
 export default class HTMS {
     protected readonly page: Page
@@ -31,8 +34,9 @@ export default class HTMS {
         await this.page.goto(url)
         await this.page.fill('#username', name)
         await this.page.fill('#password', pwd)
-        await this.page.click('button:has-text("登录")')
-        await this.page.waitForNavigation()
+        // 选择符合条件之一的元素
+        await this.page.click(':is(button:has-text("登录"), #login-btn)')
+        await this.page.waitForNavigation({ timeout: 60000 })
         return this
     }
 
@@ -52,7 +56,7 @@ export default class HTMS {
 
     async 系统提示信息() {
         const msg = await this.page.innerText('.ant-notification-notice-message')
-        await this.page.isHidden('.ant-notification-bottomRight')
+        await this.page.isHidden('.ant-notification-notice-content')
         return msg
     }
 
@@ -85,29 +89,39 @@ export default class HTMS {
      * @param value 选项名称
      */
     async 选择下拉列表值(name: string, value: string) {
-        const input = `input:right-of(td:has-text("${name}"))`
-        await this.page.click(input)
-        await this.page.click(`li:has-text("${value}")`)
-        assert.equal(await this.page.inputValue(input), value)
+        const c7n = new Select(this.page)
+        await c7n.c7nProSelect(name, value)
         return this
     }
 
-    async 选择滑动下拉列表值() {
-        await this.page.click('.ant-confirm-btns button:has-text("取消")')
-        await this.page.isHidden('.ant-modal-content')
+    async 选择下拉列表查询值(name: string, value: { 代码: string; 名称: string }) {
+        const c7n = new Select(this.page)
+        await c7n.c7nProSelectSearch(name, value)
         return this
     }
 
     async 获取列表内容() {
-        /**
-         * .c7n-pro-table-last-row-bordered
-         * .c7n-pro-table-thead tr
-         * .c7n-pro-table-tbody
-         */
-        const ths = await this.page.$$('.c7n-pro-table-thead tr th')
-        const thsNames = ths.map((th) => th.innerText())
-        const trs = await this.page.$$('.c7n-pro-table-tbody tr')
-        const tds = trs.map((tr) => tr.$$('td'))
-        return thsNames
+        return getParametersTable(
+            await this.page.innerText('.c7n-pro-table-thead tr'),
+            await this.page.innerText('.c7n-pro-table-tbody tr >> nth=0')
+        )
+    }
+
+    async 关闭启用开关(name: string) {
+        const switchElement = new Switch(this.page)
+        await switchElement.active(name)
+    }
+
+    async 输入参数(name: string, value: string) {
+        const input = `input:right-of(td:has-text("${name}"))`
+        await this.page.fill(input, value)
+        assert.equal(await this.page.inputValue(input), value)
+        return this
+    }
+
+    async 选择时间(name: string, date: string) {
+        const c7n = new Select(this.page)
+        await c7n.dateSelect(name, date)
+        return this
     }
 }

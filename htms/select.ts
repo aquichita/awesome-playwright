@@ -8,7 +8,7 @@ export default class Select {
         this.page = page
     }
 
-    async c7nProSelect(name: string, value: string, isSigle = true) {
+    async c7nProSelect(name: string, value: string, isSigle = false) {
         let input: string
         if (isSigle) {
             input = `td:has-text("${name}") .c7n-pro-select`

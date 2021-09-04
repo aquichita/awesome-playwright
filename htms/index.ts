@@ -1,27 +1,14 @@
-import { getParametersTable } from '@utils/data-handle'
 import type { Page } from 'playwright'
 import Select from '@htms/select'
 import Switch from '@htms/switch'
+import Button from '@htms/button'
 import assert from 'assert'
+import { getParametersTable } from '@utils/data-handle'
 
 export default class HTMS {
     protected readonly page: Page
 
-    protected readonly 新建按钮: string = 'button:has-text("新 建")'
-
-    protected readonly 保存按钮: string = 'button:has-text("保 存")'
-
-    protected readonly 确定按钮: string = 'button:has-text("确 定")'
-
-    protected readonly 提交按钮: string = 'button:has-text("提 交")'
-
-    protected readonly 取消按钮: string = 'button:has-text("取 消")'
-
-    protected readonly 删除按钮: string = 'button:has-text("删 除")'
-
-    protected readonly 重置按钮: string = 'button:has-text("重置")'
-
-    protected readonly 查询按钮: string = 'button:has-text("查询")'
+    protected readonly Button = Button
 
     constructor(page: Page) {
         this.page = page
@@ -94,9 +81,9 @@ export default class HTMS {
         return this
     }
 
-    async 选择下拉列表查询值(name: string, value: { 代码: string; 名称: string }) {
+    async 选择下拉列表查询值(name: string, value: { 代码: string; 名称: string }, inner = false) {
         const c7n = new Select(this.page)
-        await c7n.c7nProSelectSearch(name, value)
+        await c7n.c7nProSelectSearch(name, value, inner)
         return this
     }
 
@@ -113,15 +100,23 @@ export default class HTMS {
     }
 
     async 输入参数(name: string, value: string) {
-        const input = `input:right-of(td:has-text("${name}"))`
-        await this.page.fill(input, value)
-        assert.equal(await this.page.inputValue(input), value)
+        const input = this.page.locator(
+            `:nth-match(input:right-of(td span:text("${name}")), 1) >> nth=-1`
+        )
+        await input.fill('')
+        await input.fill(value)
+        assert.equal(await input.inputValue(), value)
         return this
     }
 
     async 选择时间(name: string, date: string) {
         const c7n = new Select(this.page)
         await c7n.dateSelect(name, date)
+        return this
+    }
+
+    async 切换主题(number = 1) {
+        await this.page.click(`.config-content img >> nth=${number}`)
         return this
     }
 }

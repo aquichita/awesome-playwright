@@ -21,6 +21,6 @@ const config: PlaywrightTestConfig = {
     preserveOutput: 'always',
     retries: 0,
     workers: process.env.CI ? 2 : undefined,
-    reporter: 'allure-playwright'
+    reporter: [['line'], ['experimental-allure-playwright']]
 }
 export default config

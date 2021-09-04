@@ -138,6 +138,7 @@ export default class Choerodon {
 -   页面逻辑参数均使用 Bean/枚举封装规范入参，按照业务逻辑设计默认值;
 -   页面上所有逻辑禁止包含断言操作，把断言留给脚本设计；
 
+
 ```typescript
 // work-list-page.ts
 import Choerodon from '@choerodon/index'

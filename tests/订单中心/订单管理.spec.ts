@@ -1,6 +1,6 @@
-import { xid } from '@utils/data-provider'
 import { expect, Page, test } from '@playwright/test'
 import { 新建订单参数声明, 物料属性, 订单管理 } from '@pages/订单中心/订单管理'
+import { xid } from '@utils/data-provider'
 
 test.use({ storageState: 'state.json' })
 

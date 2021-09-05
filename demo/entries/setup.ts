@@ -7,7 +7,7 @@ async function saveAuthentication() {
     const browser = await chromium.launch({ channel: 'chrome', headless: false })
     const page = await browser.newPage()
     const htms = new HTMS(page)
-    await htms.登录()
+    await htms.login()
     await page.context().storageState({ path: 'state.json' })
     await browser.close()
 }

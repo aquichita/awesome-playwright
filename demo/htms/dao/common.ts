@@ -1,5 +1,7 @@
+import SelectProps from '@demo/htms/types/select'
+
 interface ParameterTable {
-    [key: string]: string | undefined
+    [key: string]: string | boolean | undefined | SelectProps
 }
 
 interface Add {

@@ -1,12 +1,9 @@
 import { Add, ParameterTable, Search } from '@demo/htms/dao/common'
 import HTMS from '@demo/htms/core/htms'
 
-/**
- * 基础页面模板
- */
 export default abstract class BasicModel extends HTMS implements Add, Search {
     async add(parameters: ParameterTable) {
-        await this.page.click(this.addButtonSelector, {
+        await this.page.click(this.newButtonSelector, {
             noWaitAfter: true
         })
         this.setAddParameterTable(parameters)

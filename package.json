@@ -54,7 +54,7 @@
     "_moduleAliases": {
         "@*": "./",
         "@choerodon": "choerodon",
-        "@demo*": "demo",
+        "@demo": "demo",
         "@pages": "pages",
         "@utils": "utils",
         "@tests": "tests",

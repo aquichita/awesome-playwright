@@ -15,9 +15,9 @@ const config: PlaywrightTestConfig = {
         storageState: 'state.json'
     },
     timeout: 300000,
-    testDir: 'tests',
-    globalSetup: require.resolve('./htms/setup.ts'),
-    globalTeardown: require.resolve('./htms/teardown.ts'),
+    testDir: 'demo/tests',
+    globalSetup: require.resolve('./demo/htms/entries/setup.ts'),
+    globalTeardown: require.resolve('./demo/htms/entries/teardown.ts'),
     preserveOutput: 'always',
     retries: 0,
     workers: process.env.CI ? 2 : undefined,

@@ -40,6 +40,7 @@
         "@types/mysql": "^2.15.19",
         "@types/node": "^16.6.2",
         "@types/shelljs": "^0.8.9",
+        "date-fns": "^2.23.0",
         "faker": "^5.5.3",
         "module-alias": "^2.2.2",
         "mysql": "^2.18.1",

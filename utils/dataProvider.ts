@@ -1,6 +1,6 @@
 import * as provider from 'faker'
+import format from 'date-fns/format'
 
 export const dataPrefix: string = 'TEST-AUTO-'
-export function xid(prefix: string = dataPrefix) {
-    return prefix.concat(Date.now().toString())
-}
+
+export const xid = () => dataPrefix + format(new Date(), 'yyyyMMddHHmmssSSS')

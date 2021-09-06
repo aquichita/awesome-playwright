@@ -14,7 +14,7 @@ export default class HTMSPage {
         NEW: ':is(button:has-text("新建"), button:has-text("新 建"))',
         ADD: ':is(button:has-text("新增"), button:has-text("新 增"))',
         SAVE: ':is(button:has-text("保存"),button:has-text("保 存"))',
-        ENSURE: `:is(button:has-text("确定"),button:has-text("确 定"))`,
+        ENSURE: ':is(button:has-text("确定"),button:has-text("确 定"))',
         RESET: ':is(button:has-text("重置"), button:has-text("重 置"))',
         SEARCH: ':is(button:has-text("查询"), button:has-text("查 询"))',
         MORE: ':is(button:has-text("更多"), button:has-text("更多查询"))'
@@ -52,8 +52,22 @@ export default class HTMSPage {
         return msg
     }
 
+    async click(name: string) {
+        let elementSelector: string = name
+        if (name.includes('|')) {
+            const names = name.trim().split('|')
+            names.find(async (text) => {
+                if (await this.page.isVisible(text)) {
+                    elementSelector = `:is(:has-text("${text}")`
+                }
+            })
+        }
+        await this.page.click(elementSelector)
+        return this
+    }
+
     async input(name: string, value: string, locator?: string) {
-        const commonLocator = `:nth-match(input[type=text]:right-of(td span:text("${name}")), 1) >> nth=-1`
+        const commonLocator = `:nth-match(input[type=text]:right-of(td span:text("${name}")), 1)`
         const input = this.page.locator(locator || commonLocator)
         await input.fill('')
         await input.fill(value)
@@ -62,11 +76,12 @@ export default class HTMSPage {
     }
 
     async checkbox(name: string, isChecked: boolean, selector?: string) {
-        const commonLocator = `:nth-match(input[type=checkbox]:right-of(td span:text("${name}")), 1) >> nth=-1`
+        const commonLocator = `:nth-match(input[type=checkbox]:right-of(td span:text("${name}")), 1)`
         const checkbox = this.page.locator(selector || commonLocator)
-        const status = await checkbox.isChecked()
-        if (status !== isChecked) {
+        if (isChecked) {
             await checkbox.check()
+        } else {
+            await checkbox.uncheck()
         }
         assert.equal(await this.page.isChecked(commonLocator), isChecked)
         return this

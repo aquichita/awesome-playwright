@@ -53,8 +53,8 @@
     },
     "_moduleAliases": {
         "@*": "./",
-        "@choerodon": "choerodon",
-        "@demo": "demo",
+        "@combo": "combo",
+        "@entries": "entries",
         "@pages": "pages",
         "@utils": "utils",
         "@tests": "tests",

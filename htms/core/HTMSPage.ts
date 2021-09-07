@@ -2,6 +2,7 @@ import type { Page } from 'playwright'
 import assert from 'assert'
 import { getParametersTable } from '@utils/dataHandle'
 import SelectProps from '@htms/types/select'
+import { el } from 'date-fns/locale'
 
 export default class HTMSPage {
     protected readonly page: Page
@@ -26,9 +27,14 @@ export default class HTMSPage {
         return this
     }
 
-    async closeAccountSecurityTips() {
-        await this.page.click('.ant-modal-close-x')
-        await this.page.isHidden('.ant-modal-content')
+    async closeC7nProModalContent(selector?: string) {
+        // TODO: 模态对话框通用操作
+        const closeButtonSelector =
+            selector || '.c7n-pro-modal-content .c7n-pro-modal-header-buttons .icon-close'
+        const element = await this.page.waitForSelector(closeButtonSelector)
+        await element.waitForElementState('visible')
+        this.page.click(closeButtonSelector)
+        await element.waitForElementState('hidden')
         return this
     }
 
@@ -38,9 +44,12 @@ export default class HTMSPage {
         return this
     }
 
-    async noticeMessage() {
-        const msg = await this.page.innerText('.ant-notification-notice-message')
-        await this.page.isHidden('.ant-notification-notice-content')
+    async noticeMessage(selector?: string) {
+        const noticeSelector = selector || '.ant-notification-notice-message'
+        const element = await this.page.waitForSelector(noticeSelector)
+        await element.waitForElementState('visible')
+        const msg = await element.innerText()
+        await element.waitForElementState('hidden')
         return msg.trim()
     }
 

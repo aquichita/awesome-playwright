@@ -20,7 +20,7 @@ export class OrderTypePage extends BasicModel {
         if (parameters.订单类型名称) {
             await this.input('订单类型名称', parameters.订单类型名称)
         }
-        if (parameters.是否启用) {
+        if (parameters.是否启用 !== undefined) {
             await this.checkbox('是否启用', parameters.是否启用)
         }
         return this
@@ -33,7 +33,7 @@ export class OrderTypePage extends BasicModel {
         if (parameters.订单类型名称) {
             await this.input('订单类型名称', parameters.订单类型名称)
         }
-        if (parameters.是否启用) {
+        if (parameters.是否启用 !== undefined) {
             await this.select('是否启用', parameters.是否启用 ? '是' : '否')
         }
         return this

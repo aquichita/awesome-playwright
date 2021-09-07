@@ -37,6 +37,7 @@ test.describe.serial.only('订单类型维护', async () => {
             const content = await orderTypePage.getListRowContent()
             expect(content['订单类型代码']).toEqual(orderTypeActiveProps.订单类型代码)
             expect(content['订单类型名称']).toEqual(orderTypeActiveProps.订单类型名称)
+            expect(content['是否启用']).toEqual(orderTypeActiveProps.是否启用 ? '是' : '否')
         })
     })
 
@@ -51,6 +52,7 @@ test.describe.serial.only('订单类型维护', async () => {
             const content = await orderTypePage.getListRowContent()
             expect(content['订单类型代码']).toEqual(orderTypeDeactivateProps.订单类型代码)
             expect(content['订单类型名称']).toEqual(orderTypeDeactivateProps.订单类型名称)
+            expect(content['是否启用']).toEqual(orderTypeDeactivateProps.是否启用 ? '是' : '否')
         })
     })
 })

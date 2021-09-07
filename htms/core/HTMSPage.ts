@@ -13,7 +13,7 @@ export default class HTMSPage {
     protected readonly button = {
         NEW: ':is(button:has-text("新建"), button:has-text("新 建"))',
         ADD: ':is(button:has-text("新增"), button:has-text("新 增"))',
-        SAVE: ':is(button:has-text("保存"),button:has-text("保 存"))',
+        SAVE: ':is(button:has-text("保存"),button:has-text("保 存"), button:has-text("确定"),button:has-text("确 定"))',
         ENSURE: ':is(button:has-text("确定"),button:has-text("确 定"))',
         RESET: ':is(button:has-text("重置"), button:has-text("重 置"))',
         SEARCH: ':is(button:has-text("查询"), button:has-text("查 询"))',
@@ -21,9 +21,7 @@ export default class HTMSPage {
     }
 
     async navigate(path: string, otherBaseUrl?: string) {
-        const requestUrl = otherBaseUrl
-            ? otherBaseUrl.concat(path)
-            : (process.env.TEST_DEV_BASE_URL as string).concat(path)
+        const requestUrl = (otherBaseUrl || (process.env.TEST_DEV_BASE_URL as string)).concat(path)
         await this.page.goto(requestUrl)
         return this
     }
@@ -52,38 +50,24 @@ export default class HTMSPage {
         return msg
     }
 
-    async click(name: string) {
-        let elementSelector: string = name
-        if (name.includes('|')) {
-            const names = name.trim().split('|')
-            names.find(async (text) => {
-                if (await this.page.isVisible(text)) {
-                    elementSelector = `:is(:has-text("${text}")`
-                }
-            })
-        }
-        await this.page.click(elementSelector)
-        return this
-    }
-
-    async input(name: string, value: string, locator?: string) {
-        const commonLocator = `:nth-match(input[type=text]:right-of(td span:text("${name}")), 1)`
-        const input = this.page.locator(locator || commonLocator)
+    async input(name: string, value: string, selector?: string) {
+        const inputSelector = `:nth-match(input[type=text]:right-of(td span:text("${name}")), 1)`
+        const input = this.page.locator(selector || inputSelector)
         await input.fill('')
         await input.fill(value)
-        assert.equal(await this.page.inputValue(locator || commonLocator), value)
+        assert.equal(await this.page.inputValue(selector || inputSelector), value)
         return this
     }
 
-    async checkbox(name: string, isChecked: boolean, selector?: string) {
-        const commonLocator = `:nth-match(input[type=checkbox]:right-of(td span:text("${name}")), 1)`
-        const checkbox = this.page.locator(selector || commonLocator)
-        if (isChecked) {
+    async checkbox(name: string, value: boolean, selector?: string) {
+        const checkboxSelector = `:nth-match(input[type=checkbox]:right-of(td span:text("${name}")), 1)`
+        const checkbox = this.page.locator(selector || checkboxSelector)
+        if (value) {
             await checkbox.check()
         } else {
             await checkbox.uncheck()
         }
-        assert.equal(await this.page.isChecked(commonLocator), isChecked)
+        assert.equal(await this.page.isChecked(checkboxSelector), value)
         return this
     }
 
@@ -101,11 +85,9 @@ export default class HTMSPage {
     }
 
     async selectBySearch(name: string, value: SelectProps, selector?: string) {
-        if (selector) {
-            await this.page.click(selector)
-        } else {
-            await this.page.click(`.icon-search:right-of(td:has-text("${name}"))`)
-        }
+        await this.page.click(selector || `.icon-search:right-of(td:has-text("${name}"))`, {
+            noWaitAfter: true
+        })
         await this.page.isVisible('.c7n-pro-modal-content')
         await this.page.click(this.button.RESET)
         if (value.代码) {

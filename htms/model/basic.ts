@@ -7,7 +7,7 @@ export default abstract class BasicModel extends HTMSPage implements Add, Search
             noWaitAfter: true
         })
         await this.setAddParameterTable(parameters)
-        await this.page.click(this.button.ENSURE)
+        await this.page.click(this.button.SAVE)
         return this
     }
 

@@ -1,4 +1,4 @@
-import { ParameterTable } from '@htms/core/HTMS'
+import { ParameterTable } from '@htms/core/htms'
 import BasicModel from '@htms/model/basic'
 
 export interface OrderTypeProps extends ParameterTable {

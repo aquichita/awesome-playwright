@@ -1,13 +1,15 @@
-import { Add, ParameterTable, Search } from '@htms/core/HTMS'
-import HTMSPage from '@htms/core/HTMSPage'
+import { Add, Search, ParameterTable } from '@htms/core/htms'
+import HTMSPage from '@htms/core/page'
 
 export default abstract class BasicModel extends HTMSPage implements Add, Search {
     async add(parameters: ParameterTable) {
-        await this.page.click(this.button.NEW, {
+        await this.page.click(':is(button:has-text("新建"), button:has-text("新 建"))', {
             noWaitAfter: true
         })
         await this.setAddParameterTable(parameters)
-        await this.page.click(this.button.SAVE)
+        await this.page.click(
+            ':is(button:has-text("保存"),button:has-text("保 存"), button:has-text("确定"),button:has-text("确 定"))'
+        )
         return this
     }
 

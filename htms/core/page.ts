@@ -2,6 +2,7 @@ import { Page } from 'playwright'
 import { getParametersTable } from '@utils/dataHandle'
 import SelectProps from '@htms/types/select'
 import assert from 'assert'
+import C7PModalContent from '@htms/components/c7n-pro-modal-content'
 
 export default abstract class HTMSPage {
     protected readonly page: Page
@@ -92,6 +93,7 @@ export default abstract class HTMSPage {
         const modalContent = await this.page.waitForSelector('.c7n-pro-modal-content', {
             state: 'visible'
         })
+        const modal = new C7PModalContent(this.page)
         await this.page.click('button:has-text("重置") >> nth=-1')
         if (value.代码) {
             await this.input('代码', value.代码)

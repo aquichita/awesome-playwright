@@ -55,7 +55,7 @@ export class OrderManagePage extends BasicModel {
             await this.selectBySearch('收货方代码', parameters.收货方代码)
         }
         if (parameters.物料明细) {
-            await this.page.click(this.button.ADD)
+            await this.page.click('button:has-text("新增")')
             await this.selectBySearch(
                 '物料明细',
                 parameters.物料明细,

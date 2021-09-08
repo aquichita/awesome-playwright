@@ -16,12 +16,14 @@ export default abstract class BasicModel extends HTMSPage implements Add, Search
     protected abstract setAddParameterTable(parameters: ParameterTable): Promise<this>
 
     async search(parameters: ParameterTable) {
-        if (await this.page.isVisible(this.button.MORE)) {
-            await this.page.click(this.button.MORE)
+        if (
+            await this.page.isVisible(':is(button:has-text("更多"), button:has-text("更多查询"))')
+        ) {
+            await this.page.click(':is(button:has-text("更多"), button:has-text("更多查询"))')
         }
-        await this.page.click(this.button.RESET)
+        await this.page.click(':is(button:has-text("重置"), button:has-text("重 置"))')
         await this.setSearchParameterTable(parameters)
-        await this.page.click(this.button.SEARCH)
+        await this.page.click(':is(button:has-text("查询"), button:has-text("查 询"))')
         return this
     }
 

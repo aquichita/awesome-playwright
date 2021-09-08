@@ -6,19 +6,9 @@ import assert from 'assert'
 export default abstract class HTMSPage {
     protected readonly page: Page
 
-    protected constructor(page: Page) {
+    constructor(page: Page) {
         this.page = page
     }
-
-    // protected readonly button = {
-    //     NEW: ':is(button:has-text("新建"), button:has-text("新 建"))',
-    //     ADD: ':is(button:has-text("新增"), button:has-text("新 增"))',
-    //     SAVE: ':is(button:has-text("保存"),button:has-text("保 存"), button:has-text("确定"),button:has-text("确 定"))',
-    //     ENSURE: ':is(button:has-text("确定"),button:has-text("确 定"))',
-    //     RESET: ':is(button:has-text("重置"), button:has-text("重 置"))',
-    //     SEARCH: ':is(button:has-text("查询"), button:has-text("查 询"))',
-    //     MORE: ':is(button:has-text("更多"), button:has-text("更多查询"))'
-    // }
 
     async navigate(path: string, baseUrl?: string) {
         const requestUrl = (baseUrl || (process.env.TEST_DEV_BASE_URL as string)).concat(path)
@@ -87,10 +77,10 @@ export default abstract class HTMSPage {
         if (sigle) {
             input = `td:has-text("${name}") .c7n-pro-select`
         } else {
-            input = `input:right-of(td:has-text("${name}"))`
+            input = `:nth-match(input:right-of(td:has-text("${name}")), 1)`
         }
-        await this.page.locator(input).click()
-        await this.page.locator(`.c7n-pro-select-dropdown-menu li:has-text("${value}")`).click()
+        await this.page.click(input)
+        await this.page.click(`.c7n-pro-select-dropdown-menu li:has-text("${value}")`)
         assert.equal(await this.page.inputValue(input), value)
         return this
     }
@@ -99,17 +89,20 @@ export default abstract class HTMSPage {
         await this.page.click(selector || `.icon-search:right-of(td:has-text("${name}"))`, {
             noWaitAfter: true
         })
-        await this.page.isVisible('.c7n-pro-modal-content')
-        await this.page.click('button:has-text("重置")')
+        const modalContent = await this.page.waitForSelector('.c7n-pro-modal-content', {
+            state: 'visible'
+        })
+        await this.page.click('button:has-text("重置") >> nth=-1')
         if (value.代码) {
-            await this.page.fill('[name="xid"]', value.代码)
+            await this.input('代码', value.代码)
         }
         if (value.名称) {
-            await this.page.fill('[name="name"]', value.名称)
+            await this.input('名称', value.名称)
         }
-        await this.page.click('button:has-text("查询")')
+        await this.page.click('button:has-text("查询") >> nth=-1')
         await this.page.click(`span:has-text("${value.代码}")`)
-        await this.page.click('button:has-text("确定")')
+        await this.page.click('button:has-text("确定") >> nth=-1')
+        await modalContent.waitForElementState('hidden')
         return this
     }
 

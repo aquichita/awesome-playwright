@@ -45,7 +45,8 @@
         "module-alias": "^2.2.2",
         "mysql": "^2.18.1",
         "playwright": "^1.14.0",
-        "shelljs": "^0.8.4"
+        "shelljs": "^0.8.4",
+        "v8-to-istanbul": "^8.0.0"
     },
     "config": {
         "commitizen": {

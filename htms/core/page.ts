@@ -1,8 +1,6 @@
 import { Page } from 'playwright'
 import { getParametersTable } from '@utils/dataHandle'
 import SelectProps from '@htms/types/select'
-import assert from 'assert'
-import C7PModalContent from '@htms/components/c7n-pro-modal-content'
 
 export default abstract class HTMSPage {
     protected readonly page: Page
@@ -51,12 +49,10 @@ export default abstract class HTMSPage {
      */
     async input(name: string, value: string, selector?: string) {
         const inputSelector =
-            selector || `:nth-match(input[type=text]:right-of(td span:text("${name}")), 1)`
+            selector || `:nth-match(input[type=text]:right-of(:has-text("${name}")), 1)`
         const input = this.page.locator(inputSelector)
         await input.fill('')
-        assert.equal(await this.page.inputValue(inputSelector), '')
         await input.fill(value)
-        assert.equal(await this.page.inputValue(inputSelector), value)
         return this
     }
 
@@ -69,7 +65,6 @@ export default abstract class HTMSPage {
         } else {
             await checkbox.uncheck()
         }
-        assert.equal(await this.page.isChecked(checkboxSelector), value)
         return this
     }
 
@@ -82,36 +77,34 @@ export default abstract class HTMSPage {
         }
         await this.page.click(input)
         await this.page.click(`.c7n-pro-select-dropdown-menu li:has-text("${value}")`)
-        assert.equal(await this.page.inputValue(input), value)
         return this
     }
 
     async selectBySearch(name: string, value: SelectProps, selector?: string) {
-        await this.page.click(selector || `.icon-search:right-of(td:has-text("${name}"))`, {
-            noWaitAfter: true
-        })
-        const modalContent = await this.page.waitForSelector('.c7n-pro-modal-content', {
-            state: 'visible'
-        })
-        const modal = new C7PModalContent(this.page)
-        await this.page.click('button:has-text("重置") >> nth=-1')
+        await this.page.click(selector || `.icon-search:right-of(td:has-text("${name}"))`)
+        /**
+         * In lazy-loaded pages, it can be useful to wait until an element is visible with page.waitForSelector(selector[, options]).
+         */
+        const dialogSelector = '.c7n-pro-modal-content'
+        await this.page.waitForSelector(dialogSelector, { state: 'visible' })
+        const getSelector = (path: string) => dialogSelector.concat(' ', path)
+        await this.page.click(getSelector('button:has-text("重置")'))
         if (value.代码) {
             await this.input('代码', value.代码)
         }
         if (value.名称) {
             await this.input('名称', value.名称)
         }
-        await this.page.click('button:has-text("查询") >> nth=-1')
-        await this.page.click(`span:has-text("${value.代码}")`)
-        await this.page.click('button:has-text("确定") >> nth=-1')
-        await modalContent.waitForElementState('hidden')
+        await this.page.click(getSelector('button:has-text("查询")'))
+        await this.page.click(getSelector(`span:has-text("${value.代码}")`))
+        await this.page.click(getSelector('button:has-text("确定")'))
+        await this.page.waitForSelector(dialogSelector, { state: 'hidden' })
         return this
     }
 
     async selectDate(name: string, date: string) {
         const input = `.c7n-pro-calendar-picker:right-of(td:has-text("${name}"))`
         await this.page.fill(input, date, { force: true })
-        assert.equal(await this.page.inputValue(input), date)
         return this
     }
 

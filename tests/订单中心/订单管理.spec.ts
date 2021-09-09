@@ -26,6 +26,7 @@ test.describe.serial.only('订单管理', async () => {
     })
 
     test('新建订单-默认', async () => {
+        test.setTimeout(300000)
         await test.step('新建', async () => {
             await orderManagePage.add(orderProps)
             const message = await orderManagePage.noticeMessage()

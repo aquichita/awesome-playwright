@@ -50,7 +50,7 @@ export default abstract class HTMSPage {
     async input(name: string, value: string, selector?: string) {
         const inputSelector =
             selector || `:nth-match(input[type=text]:right-of(:has-text("${name}")), 1)`
-        const input = this.page.locator(inputSelector)
+        const input = await this.page.waitForSelector(inputSelector, { state: 'visible' })
         await input.fill('')
         await input.fill(value)
         return this
@@ -91,9 +91,17 @@ export default abstract class HTMSPage {
         await this.page.click(getSelector('button:has-text("重置")'))
         if (value.代码) {
             await this.input('代码', value.代码)
+            // await this.page.fill(
+            //     `:nth-match(${dialogSelector} input[type=text]:right-of(td span:text("代码")), 1)`,
+            //     value.代码
+            // )
         }
         if (value.名称) {
             await this.input('名称', value.名称)
+            // await this.page.fill(
+            //     `:nth-match(${dialogSelector} input[type=text]:right-of(td span:text("名称")), 1)`,
+            //     value.名称
+            // )
         }
         await this.page.click(getSelector('button:has-text("查询")'))
         await this.page.click(getSelector(`span:has-text("${value.代码}")`))

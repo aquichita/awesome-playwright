@@ -7,7 +7,7 @@ export const clearTableRowParamsFalsy = (param: string) => {
     return values
 }
 
-export const getParametersTable = (names: string, values: string) => {
+export const rowObjectContent = (names: string, values: string) => {
     const parameterKeys = clearTableRowParamsFalsy(names)
     const parameterVals = clearTableRowParamsFalsy(values)
     return parameterKeys.reduce((p, c, i) => {

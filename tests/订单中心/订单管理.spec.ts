@@ -1,5 +1,5 @@
 import { expect, Page, test } from '@playwright/test'
-import { ItemProps, OrderManagePage, OrderProps } from '@pages/订单中心/orderManagePage'
+import { ItemProps, OrderManagePage, OrderProps } from '@pages/订单中心/order-manage-page'
 import { xid } from '@utils/dataProvider'
 
 test.use({ storageState: 'state.json' })
@@ -11,8 +11,7 @@ test.describe.serial.only('订单管理', async () => {
 
     test.beforeAll(async ({ browser }) => {
         page = await browser.newPage()
-        orderManagePage = new OrderManagePage(page)
-        await orderManagePage.navigate()
+        orderManagePage = await new OrderManagePage(page).navigate()
         orderProps = {
             外部订单号: xid(),
             订单类型: { 代码: 'admin' },
@@ -28,14 +27,12 @@ test.describe.serial.only('订单管理', async () => {
     test('新建订单-默认', async () => {
         await test.step('新建', async () => {
             await orderManagePage.add(orderProps)
-            const message = await orderManagePage.noticeMessage()
-            expect(message).toEqual('共选取1条记录。成功1条。')
+            expect(await orderManagePage.message()).toEqual('共选取1条记录。成功1条。')
         })
         await test.step('查询', async () => {
-            await orderManagePage.search(orderProps)
-            const content = await orderManagePage.getListRowContent()
-            expect(content['外部订单号']).toEqual(orderProps.外部订单号)
-            expect(content['订单类型']).toEqual(orderProps.订单类型)
+            const results = await orderManagePage.search(orderProps)[0]
+            expect(results['外部订单号']).toEqual(orderProps.外部订单号)
+            expect(results['订单类型']).toEqual(orderProps.订单类型)
         })
     })
 })

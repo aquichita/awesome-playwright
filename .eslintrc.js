@@ -15,7 +15,16 @@ module.exports = {
         'no-unused-vars': 'off',
         'class-methods-use-this': 'off',
         'no-shadow': 'off',
-        '@typescript-eslint/no-shadow': ['error']
+        '@typescript-eslint/no-shadow': ['error'],
+        'no-underscore-dangle': 'off',
+        'no-unused-expressions': [
+            'error',
+            {
+                allowShortCircuit: true,
+                allowTernary: true,
+                allowTaggedTemplates: true
+            }
+        ]
     },
     settings: {
         'import/resolver': {

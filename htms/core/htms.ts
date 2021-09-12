@@ -1,28 +1,17 @@
 import SelectProps from '@htms/types/select'
 
-interface ParameterTable {
+export interface ParameterTable {
     [key: string]:
         | string
         | boolean
         | undefined
         | ReadonlyArray<ReadonlyMap<string, unknown>>
-        | SelectProps
+        | ParameterTable
 }
 
-interface Add {
-    add(parameters?: ParameterTable): unknown
+export interface Logic {
+    add?: (parameters: any) => any
+    search?: (parameters: any) => any
+    operate?: (parameters: any) => any
+    batch?: (parameters: any) => any
 }
-
-interface Search {
-    search(parameters?: ParameterTable): unknown
-}
-
-interface Batch {
-    batch(parameters?: ParameterTable): unknown
-}
-
-interface Operate {
-    operate(parameters?: ParameterTable): unknown
-}
-
-export { ParameterTable, Add, Search, Batch, Operate }

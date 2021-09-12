@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "npx playwright test --reporter=line,experimental-allure-playwright",
+        "test": "npx playwright test",
         "prepare": "husky install"
     },
     "lint-staged": {

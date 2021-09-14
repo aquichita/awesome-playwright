@@ -30,9 +30,9 @@ test.describe.serial.only('订单管理', async () => {
             expect(await orderManagePage.message()).toEqual('共选取1条记录。成功1条。')
         })
         await test.step('查询', async () => {
-            const results = await orderManagePage.search(orderProps)[0]
-            expect(results['外部订单号']).toEqual(orderProps.外部订单号)
-            expect(results['订单类型']).toEqual(orderProps.订单类型)
+            const results = await orderManagePage.search(orderProps)
+            expect(results[0]['外部订单号']).toEqual(orderProps.外部订单号)
+            expect(results[0]['订单类型']).toEqual(orderProps.订单类型)
         })
     })
 })

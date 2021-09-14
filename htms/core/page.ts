@@ -40,12 +40,14 @@ export default abstract class HTMSPage {
         await this.page.waitForLoadState('domcontentloaded')
         if (menuName.includes('|')) {
             const btns = menuName.split('|')
-            btns.forEach(async (name) => {
-                const selector = `${this.root} button:has-text("${name.trim()}")`
-                if (await this.page.isVisible(selector)) {
-                    await this.page.click(selector)
-                }
-            })
+            await Promise.all(
+                btns.map(async (btn) => {
+                    const selector = `${this.root} button:has-text("${btn.trim()}")`
+                    if (await this.page.isVisible(selector)) {
+                        await this.page.click(selector)
+                    }
+                })
+            )
         } else {
             await this.page.click(`${this.root} button:has-text("${menuName.trim()}")`)
         }

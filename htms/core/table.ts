@@ -54,15 +54,18 @@ export default abstract class Table extends HTMSPage {
     async list(headSelector?: string, rowSelector?: string) {
         const headsSelector = headSelector || `${this.root} ${this.rowSelector}`
         const rowsSelector = rowSelector || `${this.root} ${this.rowSelector}`
-        const rows = await this.page.$$eval(rowsSelector, (trs) =>
-            trs.map(async (tr) =>
-                rowObjectContent(
-                    await this.page.innerText(`${this.root} ${headsSelector}`),
-                    // eslint-disable-next-line no-undef
-                    (<HTMLElement>tr).innerText
+        const rows = await this.page.$$eval(rowsSelector, async (trs) => {
+            const content = await Promise.all(
+                trs.map(async (tr) =>
+                    rowObjectContent(
+                        await this.page.innerText(`${this.root} ${headsSelector}`),
+                        // eslint-disable-next-line no-undef
+                        (<HTMLElement>tr).innerText
+                    )
                 )
             )
-        )
+            return content
+        })
         return rows
     }
 }
